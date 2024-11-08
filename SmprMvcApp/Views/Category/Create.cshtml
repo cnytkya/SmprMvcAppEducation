@@ -1,4 +1,4 @@
-﻿@model SmprMvcApp.Models.Category
+﻿@model Category
 
 <form method="post">
     <div class="border p-3 mt-3">
@@ -9,14 +9,13 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="mb-3 row p-1">
             <label asp-for="Name" class="p-0"></label>
-            <input asp-for="Name" type="text" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="Name" type="text" class="form-control" />@* asp-for="Name" => ASP.NET Core'da Tag Helper özelliğidir. asp-for özelliği, modeldeki bir özelliğe bağlanmayı sağlar. Amaç: asp-for ile bu input, modelin Name özelliğine bağlanır. Kullanıcı formu doldurduğunda, bu alandaki değer modelin Name özelliğine aktarılır.*@
+            <span asp-validation-for="Name" class="text-danger"></span> @* ASP.NET Core'da bir Tag Helper özelliğidir. Amaç: Modeldeki Name özelliği için herhangi bir doğrulama hatası varsa, bu hatayı göstermek için kullanılır.*@
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="DisplayOrder" class="p-0"></label>
             <input asp-for="DisplayOrder" class="form-control"/>
             <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-
         </div>
         <div class="row">
             <div class="col-6 col-md-3">
@@ -28,3 +27,9 @@
         </div>
     </div>
 </form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

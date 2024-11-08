@@ -1,4 +1,4 @@
-﻿@model SmprMvcApp.Models.Category
+﻿@model Category
 
 <form method="post">
     <div class="border p-3 mt-3">
@@ -8,7 +8,7 @@
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Name" class="p-0"></label>
-            <input asp-for="Name" type="text" disabled class="form-control" />@* kullanıcı hiç bir şeyi düzenleyemesin diye disabled *@
+            <input asp-for="Name" type="text" disabled class="form-control" />@* kullanıcı hiç bir şeyi düzenleyemesin diye disabled yani input'u burda disactive ettik ki kullanıcı bir değer giremesin diye*@
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="DisplayOrder" class="p-0"></label>

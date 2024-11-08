@@ -1,4 +1,7 @@
-﻿@if (TempData["success"] != null)
+﻿@* Bütün sayfalarda kullanabileceğimiz bir Partial View tasarımını aşağıdaki gibi yazdık. Daha sonra bunu Views/Shared/_Layout.cshtml'e bildirmemiz gerekir. Render edilirken bütün html sayfalarında bu bildirimler gözükecektir. Burda da DRY'yi uyguladık yani don't repeat yourself(kendini tekrar etme)
+DRY (Don't Repeat Yourself), yazılım geliştirme sürecinde tekrarlanan kod veya mantık parçalarını önlemek için benimsenen bir tasarım prensibidir. Amaç, yazılımı daha modüler, bakımı kolay ve hata oranı düşük hale getirmektir.*@
+
+@if (TempData["success"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show position-fixed end-0 top-0 m-3" role="alert" style="width: 350px;">
         @TempData["success"]

@@ -36,7 +36,7 @@ namespace SmprMvcApp.Controllers
             {
                 ModelState.AddModelError("name", "Name and DisplayOrder cannot have the same value");
             }
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)//server side validations
             {
                 _appDbContext.Categories.Add(obj);
                 _appDbContext.SaveChanges();
@@ -82,7 +82,7 @@ namespace SmprMvcApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int? id)//Update ederken obj'yi id'ye göre çağıracağız. Nullable olabilir.
+        public IActionResult Delete(int? id)//Update ederken obj'yi id'ye göre çağıracağız. boş değer alabilir
         {
             if (id == null || id == 0)
             {
@@ -99,7 +99,7 @@ namespace SmprMvcApp.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteCategory(int? id)
+        public IActionResult DeleteCategory(int? id)//bir nesneyi silmek için önce o nesneyi veritabanında bulmamız gerekir. nesnenin id'sini bulup silecektir.
         {
             Category? obj = _appDbContext.Categories.FirstOrDefault(obj => obj.Id == id);
             if (obj == null)
