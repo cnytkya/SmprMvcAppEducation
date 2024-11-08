@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmprMvcApp.Data;
-using SmprMvcApp.Models;
+using SmprMvcApp.DAL.DbContextModel;
+using SmprMvcApp.EntityLayer.Entities;
 
 namespace SmprMvcApp.Controllers
 {

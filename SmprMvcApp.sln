@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmprMvcApp", "SmprMvcApp\SmprMvcApp.csproj", "{CA16DA5F-962C-4A87-AA0D-21B36E011774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmprMvcApp", "SmprMvcApp\SmprMvcApp.csproj", "{CA16DA5F-962C-4A87-AA0D-21B36E011774}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{9B5DE2E3-6045-46AD-9CF8-F5E093CD607D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{F65910D5-1A7F-4345-9E5B-15181AC0574B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmprMvcApp.DAL", "Data\SmprMvcApp.DAL\SmprMvcApp.DAL.csproj", "{24916D63-770F-492E-AF7F-D305CD6F71AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmprMvcApp.EntityLayer", "Model\SmprMvcApp.EntityLayer\SmprMvcApp.EntityLayer.csproj", "{6ABC8085-C366-4FA6-8BE6-405DC4CA2183}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +23,21 @@ Global
 		{CA16DA5F-962C-4A87-AA0D-21B36E011774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA16DA5F-962C-4A87-AA0D-21B36E011774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA16DA5F-962C-4A87-AA0D-21B36E011774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24916D63-770F-492E-AF7F-D305CD6F71AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24916D63-770F-492E-AF7F-D305CD6F71AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24916D63-770F-492E-AF7F-D305CD6F71AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24916D63-770F-492E-AF7F-D305CD6F71AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ABC8085-C366-4FA6-8BE6-405DC4CA2183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ABC8085-C366-4FA6-8BE6-405DC4CA2183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ABC8085-C366-4FA6-8BE6-405DC4CA2183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ABC8085-C366-4FA6-8BE6-405DC4CA2183}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24916D63-770F-492E-AF7F-D305CD6F71AC} = {9B5DE2E3-6045-46AD-9CF8-F5E093CD607D}
+		{6ABC8085-C366-4FA6-8BE6-405DC4CA2183} = {F65910D5-1A7F-4345-9E5B-15181AC0574B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5245CDE-7286-483B-BB2E-8460BCB5AE76}

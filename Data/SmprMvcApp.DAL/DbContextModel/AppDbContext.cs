@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmprMvcApp.Models;
+using SmprMvcApp.EntityLayer.Entities;
 
-namespace SmprMvcApp.Data
+namespace SmprMvcApp.DAL.DbContextModel
 {
     public class AppDbContext : DbContext //Bizim veritabanına data aktarabilmemiz için DbContext sınıfını temel almamız gerekiyor. Çünkü ef.core'u temel aldığımız için aracı bir sınıfa ihtiyacımız var. bu da DbContext'tir. Bu sınıf üzerinden artık veritabanı işlemlerimizi gerçekleştirebiliyor olacağız.
     {

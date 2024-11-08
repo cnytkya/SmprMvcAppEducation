@@ -2,7 +2,7 @@
 //App' ilk istek atýldýðýnda isteðe binaen aþaðýdaki Middleware(ara yazýlým) yapýlarý devreye girer.
 
 using Microsoft.EntityFrameworkCore;
-using SmprMvcApp.Data;
+using SmprMvcApp.DAL.DbContextModel;
 
 var builder = WebApplication.CreateBuilder(args);//Bu satýr, WebApplication sýnýfýnýn bir örneðini oluþturur ve uygulamayý baþlatmak için yapýlandýrma iþlemlerine baþlar. CreateBuilder(args) metodu, uygulamanýn yapýlandýrmasýný ve baðýmlýlýklarýný (dependencies) ayarlamak için kullanýlýr.
 

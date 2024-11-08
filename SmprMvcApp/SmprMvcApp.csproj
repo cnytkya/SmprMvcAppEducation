@@ -26,5 +26,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\SmprMvcApp.DAL\SmprMvcApp.DAL.csproj" />
+  </ItemGroup>
 
 </Project>

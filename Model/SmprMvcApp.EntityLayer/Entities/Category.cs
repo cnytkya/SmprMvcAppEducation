@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmprMvcApp.Models
+namespace SmprMvcApp.EntityLayer.Entities
 {
     public class Category
     {
