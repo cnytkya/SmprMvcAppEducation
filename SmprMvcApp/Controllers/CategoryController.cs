@@ -49,13 +49,14 @@ namespace SmprMvcApp.Controllers
         [HttpGet]
         public IActionResult Update(int? id)//Update ederken obj'yi id'ye göre çağıracağız. Nullable olabilir.
         {
-            if (id == null || id == 0)
+            //Category? category = _appDbContext.Categories.Find(id);
+            Category? category2 = _appDbContext.Categories.FirstOrDefault(c => c.Id == id);//LINQ sorgusu. Categories koleksiyonunu sorgula. Id sütunu verilen id değerine eşit olan ilk kaydı getir.
+            //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault();
+            if (id == null || id == 0)//Eğer böyle bir kayıt yoksa, null döndür.
             {
                 return NotFound();
             }
-            //Category? category = _appDbContext.Categories.Find(id);
-            Category? category2 = _appDbContext.Categories.FirstOrDefault(c => c.Id == id);
-            //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault();
+
             if (category2 == null)
             {
                 return NotFound();
