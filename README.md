@@ -23,7 +23,7 @@ SmartPro bünyesinde, eğitmenliğini yaptığım MVC projesi.
 
 -Generic Repository'i uygulama: Önce Repository de CRUD metotlarını yazıyoruz aşağıdaki örnekte olduğu gibi:
 ![image](https://github.com/user-attachments/assets/e176e398-306b-4572-966f-c9126751a344)
-Bütün Modellerde kullanabileceğimiz bir generic yapı kurduk: Aşağıda ICategoryRepository'de olduğu gibi; artık bu metotları tekrar tekrar yazmama gerek kalmadı. Sadece Implement etmemiz yeter.
+Bütün Modellerde kullanabileceğimiz bir generic yapı kurduk: Aşağıda ICategoryRepository'de olduğu gibi; artık bu metotları tekrar tekrar yazmama gerek kalmadı. Sadece Implement etmemiz yeter. Ama burda bir fark var. O da generic repository'de olmayan, özel olarak tanımladığımız iki metot var. Aşağıdaki görselde Save ve Update metotlarını sadece Category'ye ait olmasını istedim. Fakat bunu daha sonra generic repository class'a dahil edebiliriz. Özetle; eğer özel bir metot kullanacak olursak aşağıdaki görselde yazabiliriz. Diğer metotları yine ICategoryRepo'dan almış olduk.
 ![image](https://github.com/user-attachments/assets/bce353a8-d77f-4f24-a59b-9916921ecfc1)
 
 -Veritabanı işlemleir için artık her şey hazır ve bu metotları ihtiyacımız olduğu yerde kullanabileceğiz. Son olarak; her bir Interface'i gerektiği gibi ilgili concrete class'ta uygulamamız gerekir aşağıda olduğu gibi.
