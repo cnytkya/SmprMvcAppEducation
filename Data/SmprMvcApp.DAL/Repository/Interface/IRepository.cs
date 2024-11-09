@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmprMvcApp.EntityLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -14,7 +15,11 @@ namespace SmprMvcApp.DAL.Repository.Interface
 
         T Get(Expression<Func<T, bool>> filter);
 
+        void Add(T entity);
+
         //void Update(T entity);
+
+        //void Save(T entity);
         void Remove(T entity);
 
         void RemoveRange(IEnumerable<T> entity);
