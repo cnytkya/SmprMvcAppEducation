@@ -18,3 +18,10 @@ SmartPro bünyesinde, eğitmenliğini yaptığım MVC projesi.
 -Validasyon işlemleri.
 
 2-)İkinci aşamadaki konular;
+-Generic Repository => IRepository
+![image](https://github.com/user-attachments/assets/a95b4dc4-16cc-4a88-be1e-06280011d120)
+
+-Generic Repository'i uygulama:
+![image](https://github.com/user-attachments/assets/bce353a8-d77f-4f24-a59b-9916921ecfc1)
+
+
