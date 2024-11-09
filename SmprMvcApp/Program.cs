@@ -3,6 +3,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using SmprMvcApp.DAL.DbContextModel;
+using SmprMvcApp.DAL.Repository.Concrete;
+using SmprMvcApp.DAL.Repository.Interface;
 
 var builder = WebApplication.CreateBuilder(args);//Bu satýr, WebApplication sýnýfýnýn bir örneðini oluþturur ve uygulamayý baþlatmak için yapýlandýrma iþlemlerine baþlar. CreateBuilder(args) metodu, uygulamanýn yapýlandýrmasýný ve baðýmlýlýklarýný (dependencies) ayarlamak için kullanýlýr.
 
@@ -13,6 +15,11 @@ builder.Services.AddControllersWithViews();//Bu satýr, Dependency Injection (bað
 
 //EF Core kullanarak veritabanýna baðlan. Burdaki iþlemin adý DI'dir.
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Scoped yaþam süresi, ayný HTTP isteði boyunca ayný nesnenin yeniden kullanýlmasýný saðlar.
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();//Burasý, uygulamanýn yapýlandýrmasýný tamamlayýp uygulamayý baþlatýr. Build() metodu, uygulamanýn çalýþmaya hazýr hale gelmesini saðlar ve app nesnesi üzerinden yapýlandýrma iþlemlerine devam edilir.
 
