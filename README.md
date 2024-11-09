@@ -26,4 +26,8 @@ SmartPro bünyesinde, eğitmenliğini yaptığım MVC projesi.
 Bütün Modellerde kullanabileceğimiz bir generic yapı kurduk: Aşağıda ICategoryRepository'de olduğu gibi; artık bu metotları tekrar tekrar yazmama gerek kalmadı. Sadece Implement etmemiz yeter.
 ![image](https://github.com/user-attachments/assets/bce353a8-d77f-4f24-a59b-9916921ecfc1)
 
+-Veritabanı işlemleir için artık her şey hazır ve bu metotları ihtiyacımız olduğu yerde kullanabileceğiz. Son olarak; her bir Interface'i gerektiği gibi ilgili concrete class'ta uygulamamız gerekir aşağıda olduğu gibi.
+![image](https://github.com/user-attachments/assets/94658c36-7dfe-444b-acc3-38f6f8c923d4)
+
+
 
