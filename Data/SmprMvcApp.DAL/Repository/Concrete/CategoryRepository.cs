@@ -13,10 +13,10 @@ namespace SmprMvcApp.DAL.Repository.Concrete
             _appDbContext = context;
         }
 
-        public void Save()
-        {
-            _appDbContext.SaveChanges();
-        }
+        //public void Save()
+        //{
+        //    _appDbContext.SaveChanges();
+        //}
 
         public void Update(Category entity)
         {

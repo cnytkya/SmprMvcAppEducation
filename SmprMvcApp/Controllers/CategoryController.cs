@@ -15,18 +15,26 @@ namespace SmprMvcApp.Controllers
         //}
 
         //Biz artık bir arayüz kullanarak veritabanına bağlanacağız. yani doğrudan veritabanını yukarıdaki gibi kullanmak esneklik açısından doğru değildir. Bir değişiklik yaparken arayüzden yapmak daha mantıklı olur ve kod yapısını bozmamış oluruz. aşağıdaki gibi kullandığımızda daha esnek bir yapı kurmuş oluruz.
-        private readonly ICategoryRepository _categoryRepository;
+        //private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        //public CategoryController(ICategoryRepository categoryRepository)
+        //{
+        //    _categoryRepository = categoryRepository;
+        //}
+
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
             // Veritabanından kategorileri listeye çekiyoruz
             //List<Category> categoriesList = _appDbContext.Categories.ToList();
-            List<Category> categoriesList = _categoryRepository.GetAll().ToList();
+            //List<Category> categoriesList = _categoryRepository.GetAll().ToList();
+            List<Category> categoriesList = _unitOfWork.Category.GetAll().ToList();
 
             // View'a kategoriler listesini model olarak geçiriyoruz
             return View(categoriesList);
@@ -48,8 +56,8 @@ namespace SmprMvcApp.Controllers
             }
             if (ModelState.IsValid)//server side validations
             {
-                _categoryRepository.Add(obj);
-                _categoryRepository.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category created successfully"; //eğer ekleme başarılı ise bana success mesajı versin.
                 return RedirectToAction("Index");
             }
@@ -59,7 +67,7 @@ namespace SmprMvcApp.Controllers
         [HttpGet]
         public IActionResult Update(int? id)//Update ederken obj'yi id'ye göre çağıracağız. Nullable olabilir.
         {
-            Category? category = _categoryRepository.Get(c => c.Id == id);
+            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
             //Category? category2 = _appDbContext.Categories.FirstOrDefault(c => c.Id == id);//LINQ sorgusu. Categories koleksiyonunu sorgula. Id sütunu verilen id değerine eşit olan ilk kaydı getir.
             //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault();
             if (id == null || id == 0)//Eğer böyle bir kayıt yoksa, null döndür.
@@ -84,8 +92,8 @@ namespace SmprMvcApp.Controllers
             }
             if (ModelState.IsValid)
             {
-                _categoryRepository.Update(obj);
-                _categoryRepository.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category updated successfully"; //eğer güncelleme başarılı ise bana success mesajı versin.
                 return RedirectToAction("Index");
             }
@@ -99,7 +107,7 @@ namespace SmprMvcApp.Controllers
             {
                 return NotFound();
             }
-            Category? category = _categoryRepository.Get(c => c.Id == id);
+            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
             //Category? category2 = _appDbContext.Categories.FirstOrDefault(c => c.Id == id);
             //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault();
             if (category == null)
@@ -112,13 +120,13 @@ namespace SmprMvcApp.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteCategory(int? id)//bir nesneyi silmek için önce o nesneyi veritabanında bulmamız gerekir. nesnenin id'sini bulup silecektir.
         {
-            Category? category = _categoryRepository.Get(c => c.Id == id);
+            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
-            _categoryRepository.Remove(category);
-            _categoryRepository.Save();
+            _unitOfWork.Category.Remove(category);
+            _unitOfWork.Save();
             TempData["success"] = "Category deleted successfully"; //eğer silme başarılı ise bana success mesajı versin.
             return RedirectToAction("Index");
         }

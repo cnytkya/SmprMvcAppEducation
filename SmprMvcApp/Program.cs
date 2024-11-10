@@ -17,7 +17,8 @@ builder.Services.AddControllersWithViews();//Bu satýr, Dependency Injection (bað
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //Scoped yaþam süresi, ayný HTTP isteði boyunca ayný nesnenin yeniden kullanýlmasýný saðlar.
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 //builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 

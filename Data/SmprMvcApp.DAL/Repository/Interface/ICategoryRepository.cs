@@ -12,7 +12,7 @@ namespace SmprMvcApp.DAL.Repository.Interface
     {
         void Update(Category entity);
 
-        void Save();
+        //void Save();
 
         //IRepository içinde tanımlanan tüm metotlar otomatik olarak ICategoryRepository'ye dahil olur. Eğer generic bir yapı kurmasaydık her bir model için aşağıdaki gibi metotlar oluşturmak gerekird. DRY(Dont Repeat Yourself) prensibine aykırı bir durum olurdu.
 
