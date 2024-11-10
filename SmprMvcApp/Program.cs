@@ -41,6 +41,6 @@ app.UseAuthorization();//Bu satýr, uygulama genelinde yetkilendirme kontrollerin
 
 app.MapControllerRoute(//Bu kýsým, uygulama için bir varsayýlan rota tanýmlar.
     name: "default",//Rota adý olarak "default" verilmiþtir.
-    pattern: "{controller=Home}/{action=Index}/{id?}");//Rota deseni olarak. Ayný zamanda burasý bir endpoint oluþturur. controller=Home: Varsayýlan controller Home olarak ayarlanmýþtýr. action=Index: Varsayýlan aksiyon Index olarak belirlenmiþtir. {id?}: id parametresi isteðe baðlýdýr (? iþareti bu durumu belirtir) ve route içinde bir deðere sahip olmasa bile route çalýþmaya devam eder.
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");//Rota deseni olarak. Ayný zamanda burasý bir endpoint oluþturur. controller=Home: Varsayýlan controller Home olarak ayarlanmýþtýr. action=Index: Varsayýlan aksiyon Index olarak belirlenmiþtir. {id?}: id parametresi isteðe baðlýdýr (? iþareti bu durumu belirtir) ve route içinde bir deðere sahip olmasa bile route çalýþmaya devam eder.
 
 app.Run();//Bu satýr, uygulamanýn çalýþmasýný baþlatýr ve uygulama burada sürekli olarak istekleri dinlemeye baþlar.

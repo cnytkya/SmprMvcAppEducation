@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using SmprMvcApp.Models;
 using System.Diagnostics;
 
-namespace SmprMvcApp.Controllers
+namespace SmprMvcApp.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

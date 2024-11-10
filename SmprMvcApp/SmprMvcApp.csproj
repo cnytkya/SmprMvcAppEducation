@@ -29,5 +29,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Data\SmprMvcApp.DAL\SmprMvcApp.DAL.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
 
 </Project>
