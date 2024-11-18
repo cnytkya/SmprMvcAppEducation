@@ -1,0 +1,84 @@
+﻿@model ProductViewModel
+
+<form method="post" enctype="multipart/form-data"> @* enctype="multipart/form-data"=> bunu eklememiz gerekir yoksa dosya eklenemez *@
+    <div class="border p-3 mt-3">
+        <div class="row pb-2 mt-4">
+            <h2 class="text-primary">Create Product</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Title" class="p-0"></label>
+            <input asp-for="Product.Title" type="text" class="form-control" />
+            <span asp-validation-for="Product.Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Description" class="p-0"></label>
+            <input asp-for="Product.Description" class="form-control" />
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div> 
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.ISBN" class="p-0"></label>
+            <input asp-for="Product.ISBN" class="form-control" />
+            <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+        </div> 
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Author" class="p-0"></label>
+            <input asp-for="Product.Author" class="form-control" />
+            <span asp-validation-for="Product.Author" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.ListPrice" class="p-0"></label>
+            <input asp-for="Product.ListPrice" class="form-control" />
+            <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Price" class="p-0"></label>
+            <input asp-for="Product.Price" class="form-control" />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div> 
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Price50" class="p-0"></label>
+            <input asp-for="Product.Price50" class="form-control" />
+            <span asp-validation-for="Product.Price50" class="text-danger"></span>
+        </div>  
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.Price100" class="p-0"></label>
+            <input asp-for="Product.Price100" class="form-control" />
+            <span asp-validation-for="Product.Price100" class="text-danger"></span>
+        </div> 
+     
+        <div class="mb-3 row p-1">
+            <label asp-for="Product.CategoryId" class="p-0"></label>
+           @*  <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="p-0">
+                <option disabled selected>--Select Category--</option>
+            </select> *@
+           @*  <select asp-for="Product.CategoryId" asp-items="@(ViewData["CategoryList"] as IEnumerable<SelectListItem>)" class="form-select border-0 p-0">
+                <option disabled selected>--Select Category--</option>
+            </select> *@
+            <select asp-for="@Model.Product.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 p-0">
+                <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            @* <label asp-for="Product.ImageUrl" class="p-0"></label> =>eskisi *@
+            <label asp-for="Product.ImageUrl" class="p-0"></label> @* Dosya yükleyebilmemiz için bu şekilde yazmamız gerekir. *@
+            <input type="file" class="form-control" />
+            @* <span asp-validation-for="Product.ImageUrl" class="text-danger"></span> *@
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-info form-control">Create</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-primary form-control">Bact To List</a>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

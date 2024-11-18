@@ -6,6 +6,7 @@ namespace SmprMvcApp.EntityLayer.Entities
     public class Category
     {
         //[Key]=> eğer Id olarak tanımlaycak olursak buna gerek yok
+        /*[Key]*/
         public int Id { get; set; }//Id => Primary key, otomotik artan tam sayı olarak tanımladık.
 
         [Required]

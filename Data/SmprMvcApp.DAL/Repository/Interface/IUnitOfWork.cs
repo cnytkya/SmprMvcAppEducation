@@ -5,6 +5,7 @@ namespace SmprMvcApp.DAL.Repository.Interface
     public interface IUnitOfWork
     {
         ICategoryRepository Category { get; }
+        IProductRepository Product { get; }
 
         void Save();//Tüm yapılan değişiklikler veritabanına kaydedilir. Eğer bu işlem sırasında bir hata oluşursa, tüm işlemler geri alınır (rollback).
     }

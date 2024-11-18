@@ -5264,6 +5264,24 @@ textarea.form-control-lg {
         padding: 1.25rem 1rem;
     }
 
+.custom-alert {
+    position: relative; /* Pseudo-element için konumlama */
+    border-radius: 10px; /* Genel köşeler */
+}
+
+    .custom-alert::after {
+        content: '';
+        position: absolute;
+        bottom: -10px; /* Kutunun altından çıkıntı */
+        left: 50%; /* Ortalamak için */
+        transform: translateX(-50%); /* Tam ortalamak için */
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent; /* Üçgenin sol kenarı */
+        border-right: 10px solid transparent; /* Üçgenin sağ kenarı */
+        border-top: 10px solid currentColor; /* Üçgenin yukarıya bakan kenarı */
+    }
+
 .alert-primary {
     --bs-alert-color: var(--bs-primary-text-emphasis);
     --bs-alert-bg: var(--bs-primary-bg-subtle);
@@ -5279,10 +5297,10 @@ textarea.form-control-lg {
 }
 
 .alert-success {
-    --bs-alert-color: var(--bs-success-text-emphasis);
-    --bs-alert-bg: var(--bs-success-bg-subtle);
-    --bs-alert-border-color: var(--bs-success-border-subtle);
-    --bs-alert-link-color: var(--bs-success-text-emphasis);
+    --bs-alert-color: #ffffff; /* İsteğe bağlı: Metin rengi beyaz */
+    --bs-alert-bg: #28a745; /* Tam yeşil arka plan */
+    --bs-alert-border-color: white; /* Çerçeve rengi beyaz */
+    --bs-alert-link-color: #ffffff; /* İsteğe bağlı: Link rengi beyaz */
 }
 
 .alert-info {

@@ -4,11 +4,11 @@ using SmprMvcApp.EntityLayer.Entities;
 
 namespace SmprMvcApp.DAL.Repository.Concrete
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         private AppDbContext _appDbContext;
 
-        public CategoryRepository(AppDbContext context) : base(context)
+        public ProductRepository(AppDbContext context) : base(context)
         {
             _appDbContext = context;
         }
@@ -18,9 +18,9 @@ namespace SmprMvcApp.DAL.Repository.Concrete
         //    _appDbContext.SaveChanges();
         //}
 
-        public void Update(Category entity)
+        public void Update(Product entity)
         {
-            _appDbContext.Categories.Update(entity);
+            _appDbContext.Products.Update(entity);
         }
     }
 }
