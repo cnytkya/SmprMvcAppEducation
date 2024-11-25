@@ -6,6 +6,7 @@ namespace SmprMvcApp.EntityLayer.ViewModels
 {
     public class ProductViewModel
     {
+        //Buranın amacı:Hem Product hem de CategoryList gibi farklı türden bilgileri tek bir yapı içinde birleştirerek, bir view'e (görünüme) veri taşır.
         public Product Product { get; set; }
 
         [ValidateNever]

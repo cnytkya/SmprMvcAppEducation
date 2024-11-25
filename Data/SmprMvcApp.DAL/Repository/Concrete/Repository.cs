@@ -17,6 +17,7 @@ namespace SmprMvcApp.DAL.Repository.Concrete
             _appDbContext = context;
             this.dbSet = _appDbContext.Set<T>(); //_context.Categories == dbSet;
             //_context.Categories.Add(); => dbSet.Add();
+            _appDbContext.Products.Include(c => c.Category).Include(c => c.CategoryId);//Navigation properties: Products tablosu ile Category tablosu arasındaki ilişkiyi sorguya dahil eder. Include, yalnızca navigasyon özellikleri (başka bir tabloyla ilişkili olan özellikler) için kullanılır.
         }
 
         public void Add(T entity)
@@ -24,17 +25,31 @@ namespace SmprMvcApp.DAL.Repository.Concrete
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
             query = query.Where(filter);
             return query.FirstOrDefault();
-            //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault(); => controllerda yaptığımız query'nin aynısını bu metot yapacak.
+            //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault(); => controllerda yaptığımız query'nin aynısını bu metot yapacak. eğer category name
         }
 
-        public IEnumerable<T> GetAll()//bütün T türündeki nesneleri listeler
+        public IEnumerable<T> GetAll(string? includeProperties = null)//bütün T türündeki nesneleri listeler
         {
             IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
             return query.ToList();
         }
 

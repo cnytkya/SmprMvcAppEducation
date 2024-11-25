@@ -37,6 +37,7 @@ namespace SmprMvcApp.EntityLayer.Entities
         [ForeignKey("CategoryId"), ValidateNever]
         public Category Category { get; set; }//Ürün İlişkisi İçin Yabancı Anahtar Eklendi
 
+        [ValidateNever]
         public string ImageUrl { get; set; }
     }
 }
