@@ -17,6 +17,11 @@
                     <span asp-validation-for="Product.Title" class="text-danger"></span>
                 </div>
                 <div class="mb-3 row p-1">
+                    <label asp-for="Product.Author" class="p-0"></label>
+                    <input asp-for="Product.Author" class="form-control" />
+                    <span asp-validation-for="Product.Author" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
                     <label asp-for="Product.Description" class="p-0  "></label>
                     <textarea asp-for="Product.Description" class="form-control"></textarea>
                 </div>
@@ -24,11 +29,6 @@
                     <label asp-for="Product.ISBN" class="p-0"></label>
                     <input asp-for="Product.ISBN" class="form-control" />
                     <span asp-validation-for="Product.ISBN" class="text-danger"></span>
-                </div>
-                <div class="mb-3 row p-1">
-                    <label asp-for="Product.Author" class="p-0"></label>
-                    <input asp-for="Product.Author" class="form-control" />
-                    <span asp-validation-for="Product.Author" class="text-danger"></span>
                 </div>
                 <div class="mb-3 row p-1">
                     <label asp-for="Product.ListPrice" class="p-0"></label>

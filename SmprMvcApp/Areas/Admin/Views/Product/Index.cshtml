@@ -9,7 +9,7 @@
             <a asp-controller="Product" asp-action="Upsert" class="btn btn-success mx-2"><i class="bi bi-plus-circle-dotted mx-2"></i>Create New Product</a>
         </div>
     </div>
-    <table class="table table-bordered table-striped">
+    <table id="myTable" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Title</th>
@@ -43,4 +43,8 @@
         </tbody>
     </table>
 </div>
-
+@section Scripts {
+    <script>
+        let table = new DataTable('#myTable');
+    </script>
+}

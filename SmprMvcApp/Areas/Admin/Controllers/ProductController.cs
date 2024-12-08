@@ -171,7 +171,17 @@ namespace SmprMvcApp.Areas.Admin.Controllers
                     _unitOfWork.Product.Update(productViewModel.Product);
                 }
                 _unitOfWork.Save();
-                TempData["success"] = "Product created successfully"; //eğer ekleme başarılı ise bana success mesajı versin.
+                if (productViewModel.Product.Id == 0)
+                {
+                    //message for create
+                    TempData["success"] = "Product created successfully"; //eğer ekleme başarılı ise bana success mesajı versin.
+                }
+                else
+                {
+                    //message for update
+                    TempData["success"] = "Product updated successfully"; //eğer güncelleme başarılı ise bana success mesajı versin.
+                }
+
                 return RedirectToAction("Index");
             }
             else
@@ -187,33 +197,70 @@ namespace SmprMvcApp.Areas.Admin.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Delete(int? id)//Update ederken obj'yi id'ye göre çağıracağız. boş değer alabilir
+        // GET: Delete
+        public IActionResult Delete(int id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? product = _unitOfWork.Product.Get(c => c.Id == id);
+            var product = _unitOfWork.Product.Get(p => p.Id == id, includeProperties: "Category");
+
             if (product == null)
             {
-                return NotFound();
+                TempData["error"] = "Product not found.";
+                return RedirectToAction("Index");
             }
-            return View(product);
+
+            var productViewModel = new ProductViewModel
+            {
+                Product = product,
+                CategoryList = _unitOfWork.Category.GetAll()
+                    .Select(c => new SelectListItem
+                    {
+                        Text = c.Name,
+                        Value = c.Id.ToString()
+                    })
+            };
+
+            return View(productViewModel);
         }
 
+        // POST: Delete
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteProduct(int? id)//veritabanından id'yi bulup silecek.
+        public IActionResult DeletePost(int id)
         {
-            Product? product = _unitOfWork.Product.Get(c => c.Id == id);
+            var product = _unitOfWork.Product.Get(p => p.Id == id);
+
             if (product == null)
             {
-                return NotFound();
+                TempData["error"] = "Product not found.";
+                return RedirectToAction("Index");
             }
+
+            // Silinecek dosyanın yolunu bul ve sil
+            if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+            }
+
+            // Ürünü veritabanından sil
             _unitOfWork.Product.Remove(product);
             _unitOfWork.Save();
-            TempData["success"] = "Product deleted successfully"; //eğer silme başarılı ise bana success mesajı versin.
+
+            TempData["success"] = "Product deleted successfully.";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+
+        //[HttpGet]
+        //public IActionResult GetAll()
+        //{
+        //    List<Product> productsList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+        //    return Json(new { data = productsList });
+        //}
+
+        #endregion
     }
 }

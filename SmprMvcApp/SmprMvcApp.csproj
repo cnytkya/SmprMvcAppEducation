@@ -14,13 +14,23 @@
     
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+    <Compile Remove="wwwroot\Eflyer\**" />
+    <Content Remove="wwwroot\Eflyer\**" />
+    <EmbeddedResource Remove="wwwroot\Eflyer\**" />
+    <None Remove="wwwroot\Eflyer\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\SmprMvcApp.Common\SmprMvcApp.Common.csproj" />
     <ProjectReference Include="..\Data\SmprMvcApp.DAL\SmprMvcApp.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>

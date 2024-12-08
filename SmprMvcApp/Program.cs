@@ -1,46 +1,58 @@
-//burasý istek hattý (request pipeline)'ný oluþturur. Globalde genellikle bu bir boru hattýna benzetilir.
-//App' ilk istek atýldýðýnda isteðe binaen aþaðýdaki Middleware(ara yazýlým) yapýlarý devreye girer.
+//burasï¿½ istek hattï¿½ (request pipeline)'nï¿½ oluï¿½turur. Globalde genellikle bu bir boru hattï¿½na benzetilir.
+//App' ilk istek atï¿½ldï¿½ï¿½ï¿½nda isteï¿½e binaen aï¿½aï¿½ï¿½daki Middleware(ara yazï¿½lï¿½m) yapï¿½larï¿½ devreye girer.
 
 using Microsoft.EntityFrameworkCore;
 using SmprMvcApp.DAL.DbContextModel;
 using SmprMvcApp.DAL.Repository.Concrete;
 using SmprMvcApp.DAL.Repository.Interface;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using SmprMvcApp.Common;
 
-var builder = WebApplication.CreateBuilder(args);//Bu satýr, WebApplication sýnýfýnýn bir örneðini oluþturur ve uygulamayý baþlatmak için yapýlandýrma iþlemlerine baþlar. CreateBuilder(args) metodu, uygulamanýn yapýlandýrmasýný ve baðýmlýlýklarýný (dependencies) ayarlamak için kullanýlýr.
+var builder = WebApplication.CreateBuilder(args);//Bu satï¿½r, WebApplication sï¿½nï¿½fï¿½nï¿½n bir ï¿½rneï¿½ini oluï¿½turur ve uygulamayï¿½ baï¿½latmak iï¿½in yapï¿½landï¿½rma iï¿½lemlerine baï¿½lar. CreateBuilder(args) metodu, uygulamanï¿½n yapï¿½landï¿½rmasï¿½nï¿½ ve baï¿½ï¿½mlï¿½lï¿½klarï¿½nï¿½ (dependencies) ayarlamak iï¿½in kullanï¿½lï¿½r.
 
-//NOT:Eskiden iki dosya kullanýlýrdý. Program.cs ve Startup.cs. Daha sonra ikisi Program.cs te birleþtirildi.
+//NOT:Eskiden iki dosya kullanï¿½lï¿½rdï¿½. Program.cs ve Startup.cs. Daha sonra ikisi Program.cs te birleï¿½tirildi.
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();//Bu satýr, Dependency Injection (baðýmlýlýk enjeksiyonu) sistemi aracýlýðýyla MVC mimarisi için gerekli servisleri ekler. AddControllersWithViews(), uygulamanýn hem Controller sýnýflarýný (yani iþ mantýðýný yöneten sýnýflar) hem de View (görünüm) dosyalarýný (UI) kullanmasýný saðlar.
+builder.Services.AddControllersWithViews();//Bu satï¿½r, Dependency Injection (baï¿½ï¿½mlï¿½lï¿½k enjeksiyonu) sistemi aracï¿½lï¿½ï¿½ï¿½yla MVC mimarisi iï¿½in gerekli servisleri ekler. AddControllersWithViews(), uygulamanï¿½n hem Controller sï¿½nï¿½flarï¿½nï¿½ (yani iï¿½ mantï¿½ï¿½ï¿½nï¿½ yï¿½neten sï¿½nï¿½flar) hem de View (gï¿½rï¿½nï¿½m) dosyalarï¿½nï¿½ (UI) kullanmasï¿½nï¿½ saï¿½lar.
 
-//EF Core kullanarak veritabanýna baðlan. Burdaki iþlemin adý DI'dir.
+//EF Core kullanarak veritabanï¿½na baï¿½lan. Burdaki iï¿½lemin adï¿½ DI'dir.
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//Scoped yaþam süresi, ayný HTTP isteði boyunca ayný nesnenin yeniden kullanýlmasýný saðlar.
+//builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddRazorPages();
+
+//Scoped yaï¿½am sï¿½resi, aynï¿½ HTTP isteï¿½i boyunca aynï¿½ nesnenin yeniden kullanï¿½lmasï¿½nï¿½ saï¿½lar.
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 //builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 //builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 
-var app = builder.Build();//Burasý, uygulamanýn yapýlandýrmasýný tamamlayýp uygulamayý baþlatýr. Build() metodu, uygulamanýn çalýþmaya hazýr hale gelmesini saðlar ve app nesnesi üzerinden yapýlandýrma iþlemlerine devam edilir.
+var app = builder.Build();//Burasï¿½, uygulamanï¿½n yapï¿½landï¿½rmasï¿½nï¿½ tamamlayï¿½p uygulamayï¿½ baï¿½latï¿½r. Build() metodu, uygulamanï¿½n ï¿½alï¿½ï¿½maya hazï¿½r hale gelmesini saï¿½lar ve app nesnesi ï¿½zerinden yapï¿½landï¿½rma iï¿½lemlerine devam edilir.
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())//Bu koþul, uygulamanýn çalýþma ortamýný kontrol eder. Eðer uygulama Development (Geliþtirme) ortamýnda deðilse (örneðin, Production veya Staging ortamýnda ise), hata yönetimi için UseExceptionHandler ve UseHsts gibi yöntemler uygulanýr. Bu koþul, geliþmiþ hata yönetimi ve güvenlik ayarlarýný üretim ortamýnda etkinleþtirir.
+if (!app.Environment.IsDevelopment())//Bu koï¿½ul, uygulamanï¿½n ï¿½alï¿½ï¿½ma ortamï¿½nï¿½ kontrol eder. Eï¿½er uygulama Development (Geliï¿½tirme) ortamï¿½nda deï¿½ilse (ï¿½rneï¿½in, Production veya Staging ortamï¿½nda ise), hata yï¿½netimi iï¿½in UseExceptionHandler ve UseHsts gibi yï¿½ntemler uygulanï¿½r. Bu koï¿½ul, geliï¿½miï¿½ hata yï¿½netimi ve gï¿½venlik ayarlarï¿½nï¿½ ï¿½retim ortamï¿½nda etkinleï¿½tirir.
 {
-    app.UseExceptionHandler("/Home/Error");//Bu satýr, bir hata durumunda /Home/Error adresine yönlendirme yapar. Bu sayede kullanýcýlar hata ekranýný görür ve daha güvenli bir hata yönetimi saðlanýr.
+    app.UseExceptionHandler("/Home/Error");//Bu satï¿½r, bir hata durumunda /Home/Error adresine yï¿½nlendirme yapar. Bu sayede kullanï¿½cï¿½lar hata ekranï¿½nï¿½ gï¿½rï¿½r ve daha gï¿½venli bir hata yï¿½netimi saï¿½lanï¿½r.
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();//HTTP Strict Transport Security (HSTS) protokolünü etkinleþtirir ve uygulamanýn yalnýzca HTTPS üzerinden çalýþmasýný saðlar. Varsayýlan olarak, HSTS deðeri 30 gündür ve bu süre, uygulamanýn güvenliðini saðlamak için üretim ortamýnda artýrýlabilir.
+    app.UseHsts();//HTTP Strict Transport Security (HSTS) protokolï¿½nï¿½ etkinleï¿½tirir ve uygulamanï¿½n yalnï¿½zca HTTPS ï¿½zerinden ï¿½alï¿½ï¿½masï¿½nï¿½ saï¿½lar. Varsayï¿½lan olarak, HSTS deï¿½eri 30 gï¿½ndï¿½r ve bu sï¿½re, uygulamanï¿½n gï¿½venliï¿½ini saï¿½lamak iï¿½in ï¿½retim ortamï¿½nda artï¿½rï¿½labilir.
 }
 
-app.UseHttpsRedirection();//Bu satýr, gelen HTTP isteklerini HTTPS isteklerine yönlendirir. Bu, uygulamanýn güvenli baðlantý üzerinden çalýþmasýný saðlar.
-app.UseStaticFiles();//Bu satýr, uygulamanýn statik dosyalarýný (CSS, JavaScript, resim vb.) sunmasýna izin verir. wwwroot klasöründeki dosyalar bu þekilde eriþilebilir hale gelir.
+app.UseHttpsRedirection();//Bu satï¿½r, gelen HTTP isteklerini HTTPS isteklerine yï¿½nlendirir. Bu, uygulamanï¿½n gï¿½venli baï¿½lantï¿½ ï¿½zerinden ï¿½alï¿½ï¿½masï¿½nï¿½ saï¿½lar.
+app.UseStaticFiles();//Bu satï¿½r, uygulamanï¿½n statik dosyalarï¿½nï¿½ (CSS, JavaScript, resim vb.) sunmasï¿½na izin verir. wwwroot klasï¿½rï¿½ndeki dosyalar bu ï¿½ekilde eriï¿½ilebilir hale gelir.
 
-app.UseRouting();//Bu satýr, ASP.NET Core uygulamasýnýn URL desenlerini (routes) tanýmasýna ve iþlemesine olanak tanýr. Uygulama içindeki yönlendirmeleri ayarlamak için gereklidir. Ayný zamanda burasý yönlendirme (Routing) Middleware'dir.
+app.UseRouting();//Bu satï¿½r, ASP.NET Core uygulamasï¿½nï¿½n URL desenlerini (routes) tanï¿½masï¿½na ve iï¿½lemesine olanak tanï¿½r. Uygulama iï¿½indeki yï¿½nlendirmeleri ayarlamak iï¿½in gereklidir. Aynï¿½ zamanda burasï¿½ yï¿½nlendirme (Routing) Middleware'dir.
 
-app.UseAuthorization();//Bu satýr, uygulama genelinde yetkilendirme kontrollerini etkinleþtirir. Belirli sayfalara eriþim izni olan kullanýcýlarý belirlemek için yetkilendirme iþlemlerini devreye alýr.
+//ASP.NET Core, middleware sÄ±ralamasÄ±na Ã¶nem verir. Middleware'ler sÄ±rasÄ±yla tetiklenir, bu yÃ¼zden Ã¶nce UseAuthentication(doÄŸrulama) sonra UseAuthorization(yetkilendirme) gelir. UseAuthentication() gelen isteÄŸi bir kullanÄ±cÄ±ya baÄŸlayarak kimlik doÄŸrulama saÄŸlar. UseAuthorization() isteÄŸin yetkilendirme kurallarÄ±na uygun olup olmadÄ±ÄŸÄ±nÄ± kontrol eder.
 
-app.MapControllerRoute(//Bu kýsým, uygulama için bir varsayýlan rota tanýmlar.
-    name: "default",//Rota adý olarak "default" verilmiþtir.
-    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");//Rota deseni olarak. Ayný zamanda burasý bir endpoint oluþturur. controller=Home: Varsayýlan controller Home olarak ayarlanmýþtýr. action=Index: Varsayýlan aksiyon Index olarak belirlenmiþtir. {id?}: id parametresi isteðe baðlýdýr (? iþareti bu durumu belirtir) ve route içinde bir deðere sahip olmasa bile route çalýþmaya devam eder.
+app.UseAuthentication();//Kimlik doÄŸrulama. kullanÄ±cÄ± adÄ± veya ÅŸifre nin geÃ§erli olup olmadÄ±ÄŸÄ±nÄ± kontrol eder. EÄŸer bunlar geÃ§erliyse yetkilendime devreye girer. GiriÅŸ yapacak user'Ä±n rolÃ¼ne gÃ¶re bazÄ± sayfalara eriÅŸim sÄ±nÄ±rlamasÄ± getirir. Ã–rneÄŸin giriÅŸ yapan kiÅŸi customer ise sadece Ã¼rÃ¼nleri ve Ã¼rÃ¼nlerin detaylarÄ±nÄ± gÃ¶rebilir.
+app.UseAuthorization();//Yetkilendirme. Bu satÄ±r, uygulama genelinde yetkilendirme kontrollerini etkinleÅŸtirir. Belirli sayfalara eriÅŸim izni olan kullanÄ±cÄ±larÄ± belirlemek iÃ§in yetkilendirme iÅŸlemleri devreye alÄ±r.
 
-app.Run();//Bu satýr, uygulamanýn çalýþmasýný baþlatýr ve uygulama burada sürekli olarak istekleri dinlemeye baþlar.
+app.MapRazorPages();
+app.MapControllerRoute(//Bu kï¿½sï¿½m, uygulama iï¿½in bir varsayï¿½lan rota tanï¿½mlar.
+    name: "default",//Rota adï¿½ olarak "default" verilmiï¿½tir.
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");//Rota deseni olarak. Aynï¿½ zamanda burasï¿½ bir endpoint oluï¿½turur. controller=Home: Varsayï¿½lan controller Home olarak ayarlanmï¿½ï¿½tï¿½r. action=Index: Varsayï¿½lan aksiyon Index olarak belirlenmiï¿½tir. {id?}: id parametresi isteï¿½e baï¿½lï¿½dï¿½r (? iï¿½areti bu durumu belirtir) ve route iï¿½inde bir deï¿½ere sahip olmasa bile route ï¿½alï¿½ï¿½maya devam eder.
+
+app.Run();//Bu satï¿½r, uygulamanï¿½n ï¿½alï¿½ï¿½masï¿½nï¿½ baï¿½latï¿½r ve uygulama burada sï¿½rekli olarak istekleri dinlemeye baï¿½lar.

@@ -131,5 +131,12 @@ namespace SmprMvcApp.Areas.Admin.Controllers
             TempData["success"] = "Category deleted successfully"; //eğer silme başarılı ise bana success mesajı versin.
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Category> categoriesList = _unitOfWork.Category.GetAll().ToList();
+            return Json(new { data = categoriesList });
+        }
     }
 }
