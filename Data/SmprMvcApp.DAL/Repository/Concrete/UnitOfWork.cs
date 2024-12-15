@@ -30,6 +30,7 @@ namespace SmprMvcApp.DAL.Repository.Concrete
         // `ICategoryRepository` arayüzünü uygular.
 
         public IProductRepository Product { get; private set; }
+
         // Ürün ile ilgili veritabanı işlemlerini yöneten repository.
         // `IProductRepository` arayüzünü uygular.
 

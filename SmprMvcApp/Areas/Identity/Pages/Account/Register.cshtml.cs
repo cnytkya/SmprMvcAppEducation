@@ -6,11 +6,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using SmprMvcApp.Common;
 using SmprMvcApp.EntityLayer.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 using System.Text;
 using System.Text.Encodings.Web;
 
@@ -95,6 +100,20 @@ namespace SmprMvcApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public string? Role { get; set; }
+
+            [ValidateNever]
+            public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+
+            public string? StreetAddress { get; set; }
+            public string? City { get; set; }
+            public string? State { get; set; }
+            public string? PostalCode { get; set; }
+            public string? PhoneNumber { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -106,6 +125,15 @@ namespace SmprMvcApp.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(Roles.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(Roles.Role_Company)).GetAwaiter().GetResult();
             }
+
+            Input = new()
+            {
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                })
+            };
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -119,13 +147,26 @@ namespace SmprMvcApp.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None); /*user: Kullanıcı nesnesi(IdentityUser gibi bir sınıf örneği)*/
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None); /*Kullanıcının mevcut kullanıcı adını günceller veya yenisini ayarlar.*/
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                /*
+                 Input.Email: Kullanıcı adı olarak ayarlanacak değer.Burada Input.Email, kullanıcının girdiği e-posta adresini temsil eder.
+                 CancellationToken.None: Bu işlem iptal edilemez; yani işlem tamamlanana kadar çalışmaya devam eder.*/
 
                 if (result.Succeeded)
                 {
+                    // Kullanıcı başarıyla ayarlandıktan sonra işlemler devam edebilir.
                     _logger.LogInformation("User created a new account with password.");
+                    if (!string.IsNullOrEmpty(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
+                    else
+                    {
+                        //eğer role atanmadıysa customer rolü atanacak.
+                        await _userManager.AddToRoleAsync(user, Roles.Role_Customer);
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

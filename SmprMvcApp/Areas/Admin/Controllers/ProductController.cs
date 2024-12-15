@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SmprMvcApp.Common;
 using SmprMvcApp.DAL.Repository.Interface;
 using SmprMvcApp.EntityLayer.Entities;
 using SmprMvcApp.EntityLayer.ViewModels;
@@ -7,6 +9,7 @@ using SmprMvcApp.EntityLayer.ViewModels;
 namespace SmprMvcApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = Roles.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

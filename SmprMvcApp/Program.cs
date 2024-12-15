@@ -20,8 +20,25 @@ builder.Services.AddControllersWithViews();//Bu sat�r, Dependency Injection (b
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    opt.LoginPath = $"/Identity/Account/Login";
+    opt.LogoutPath = $"/Identity/Account/Logout";
+    opt.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 builder.Services.AddRazorPages();
+
+// CORS policy ekleme
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowAnyOrigin();
+    });
+});
 
 //Scoped ya�am s�resi, ayn� HTTP iste�i boyunca ayn� nesnenin yeniden kullan�lmas�n� sa�lar.
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -44,6 +61,9 @@ app.UseHttpsRedirection();//Bu sat�r, gelen HTTP isteklerini HTTPS isteklerine
 app.UseStaticFiles();//Bu sat�r, uygulaman�n statik dosyalar�n� (CSS, JavaScript, resim vb.) sunmas�na izin verir. wwwroot klas�r�ndeki dosyalar bu �ekilde eri�ilebilir hale gelir.
 
 app.UseRouting();//Bu sat�r, ASP.NET Core uygulamas�n�n URL desenlerini (routes) tan�mas�na ve i�lemesine olanak tan�r. Uygulama i�indeki y�nlendirmeleri ayarlamak i�in gereklidir. Ayn� zamanda buras� y�nlendirme (Routing) Middleware'dir.
+
+// CORS middleware'i ekle
+app.UseCors();
 
 //ASP.NET Core, middleware sıralamasına önem verir. Middleware'ler sırasıyla tetiklenir, bu yüzden önce UseAuthentication(doğrulama) sonra UseAuthorization(yetkilendirme) gelir. UseAuthentication() gelen isteği bir kullanıcıya bağlayarak kimlik doğrulama sağlar. UseAuthorization() isteğin yetkilendirme kurallarına uygun olup olmadığını kontrol eder.
 

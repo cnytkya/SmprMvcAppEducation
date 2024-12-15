@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SmprMvcApp.Common;
 using SmprMvcApp.DAL.DbContextModel;
 using SmprMvcApp.DAL.Repository.Interface;
 using SmprMvcApp.EntityLayer.Entities;
@@ -6,6 +8,7 @@ using SmprMvcApp.EntityLayer.Entities;
 namespace SmprMvcApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = Roles.Role_Admin)]
     public class CategoryController : Controller
     {
         /*private readonly AppDbContext _appDbContext;*/ //private readonly AppDbContext _appDbContext; ifadesi, bir sınıf içinde AppDbContext türünde yalnızca okunabilir (readonly) bir alan tanımlar. Bu tür bir alan genellikle bağımlılık enjeksiyonu (Dependency Injection) ile veri tabanı işlemlerini yapmak için kullanılır.

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SmprMvcApp.Common;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmprMvcApp.EntityLayer.Entities
@@ -7,7 +8,7 @@ namespace SmprMvcApp.EntityLayer.Entities
     {
         //[Key]=> eğer Id olarak tanımlaycak olursak buna gerek yok
         /*[Key]*/
-        public int Id { get; set; }//Id => Primary key, otomotik artan tam sayı olarak tanımladık.
+        public int Id { get; set; } //Id => Primary key, otomotik artan tam sayı olarak tanımladık.
 
         [Required]
         [MaxLength(30)]

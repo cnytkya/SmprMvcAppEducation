@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\SmprMvcApp.Common\SmprMvcApp.Common.csproj" />
+  </ItemGroup>
+
 </Project>

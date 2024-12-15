@@ -176,12 +176,10 @@ namespace SmprMvcApp.DAL.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -218,12 +216,10 @@ namespace SmprMvcApp.DAL.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -252,26 +248,6 @@ namespace SmprMvcApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DisplayOrder = 1,
-                            Name = "Roman"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DisplayOrder = 2,
-                            Name = "Hikaye"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DisplayOrder = 3,
-                            Name = "Senaryo"
-                        });
                 });
 
             modelBuilder.Entity("SmprMvcApp.EntityLayer.Entities.Product", b =>
@@ -322,50 +298,6 @@ namespace SmprMvcApp.DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Cüneyt",
-                            CategoryId = 1,
-                            Description = "HP Victus 16-R1001NT Intel Core i7 14700HX 16 GB 1 TB SSD",
-                            ISBN = "ASS231D65F45DF",
-                            ImageUrl = "",
-                            ListPrice = 5.0,
-                            Price = 5.0,
-                            Price100 = 5.0,
-                            Price50 = 5.0,
-                            Title = "HP Victus"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Kasım",
-                            CategoryId = 2,
-                            Description = "LENOVO Thinkpad Z16 Gen 1 Ryzen 9 Pro 6950h 32gb 1tb Ssd...",
-                            ISBN = "ASS231D65F45DF",
-                            ImageUrl = "",
-                            ListPrice = 5.0,
-                            Price = 5.0,
-                            Price100 = 5.0,
-                            Price50 = 5.0,
-                            Title = "Lenova Thingpad"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Kasım",
-                            CategoryId = 3,
-                            Description = "LENOVO Thinkpad Z16 Gen 1 Ryzen 9 Pro 6950h 32gb 1tb Ssd...",
-                            ISBN = "ASS231D65F45DF",
-                            ImageUrl = "",
-                            ListPrice = 5.0,
-                            Price = 5.0,
-                            Price100 = 5.0,
-                            Price50 = 5.0,
-                            Title = "Lenova Thingpad"
-                        });
                 });
 
             modelBuilder.Entity("SmprMvcApp.EntityLayer.Entities.AppUser", b =>
