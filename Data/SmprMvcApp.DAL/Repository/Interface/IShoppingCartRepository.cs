@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace SmprMvcApp.DAL.Repository.Interface
 {
-    public interface ICompanyRepository : IRepository<Company>
+    public interface IShoppingCartRepository : IRepository<ShoppingCart>
     {
-        void Update(Company entity);
+        void Update(ShoppingCart entity);
     }
 }

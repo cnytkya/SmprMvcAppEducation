@@ -25,9 +25,18 @@ namespace SmprMvcApp.DAL.Repository.Concrete
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query = dbSet;
+            if (tracked)
+            {
+                query = dbSet;
+            }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
+            query = query.Where(filter);
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -35,8 +44,8 @@ namespace SmprMvcApp.DAL.Repository.Concrete
                     query = query.Include(includeProperty);
                 }
             }
-            query = query.Where(filter);
             return query.FirstOrDefault();
+
             //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault(); => controllerda yaptığımız query'nin aynısını bu metot yapacak. eğer category name
         }
 

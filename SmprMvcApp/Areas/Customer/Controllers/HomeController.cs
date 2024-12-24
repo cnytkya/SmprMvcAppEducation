@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmprMvcApp.DAL.Repository.Interface;
 using SmprMvcApp.EntityLayer.Entities;
 using SmprMvcApp.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace SmprMvcApp.Areas.Customer.Controllers
 {
@@ -26,8 +28,39 @@ namespace SmprMvcApp.Areas.Customer.Controllers
 
         public IActionResult ProductDetails(int productId)
         {
-            Product getProductDetails = _unitOfWork.Product.Get(p => p.Id == productId, includeProperties: "Category");
-            return View(getProductDetails);
+            ShoppingCart cart = new()
+            {
+                Product = _unitOfWork.Product.Get(p => p.Id == productId, includeProperties: "Category"),
+                Count = 1,
+                ProductId = productId
+            };
+            return View(cart);
+        }
+
+        [HttpPost, Authorize]
+        public IActionResult ProductDetails(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.AppUserId = userId;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.AppUserId == userId && u.ProductId == shoppingCart.ProductId);
+
+            if (cartFromDb != null)
+            {
+                //zaten daha önce ayný ürün eklenmiþse üstüne yeni count ekleyecek
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+            }
+            else
+            {
+                //ilk defa ekleniyorsa yeni bir kayýt oluþturacak.
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+            }
+            TempData["success"] = "Card updated successfully";
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

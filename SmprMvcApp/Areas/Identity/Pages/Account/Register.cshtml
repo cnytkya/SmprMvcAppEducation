@@ -70,6 +70,11 @@
                             <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
                                 <option disabled selected>--Select User Role</option>
                             </select>
+                        </div> 
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.CompanyId" style="display:none" asp-items="@Model.Input.CompanyList" class="form-select">
+                                <option disabled selected>--Select User Company</option>
+                            </select>
                         </div>
                     </div>
                     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
@@ -116,4 +121,35 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+            $(document).ready(function(){
+            // Role seçiminde bir değişiklik olduğunda
+            $('#Input_Role').change(function(){
+                // Seçilen role'ün metnini alıyoruz
+                var selection = $('#Input_Role option:selected').text(); // 'Option:Selected' yerine 'option:selected' olmalı
+                if(selection === 'Company'){ // 'Company' ile eşleşiyor mu kontrol ediyoruz
+                    $('#Input_CompanyId').show(); // Şirket alanını göster
+                }
+                else{
+                    $('#Input_CompanyId').hide(); // Şirket alanını gizle
+                }
+            });
+        });
+        /*
+        JS ile
+        document.addEventListener('DOMContentLoaded', function() {
+            // Role seçiminde bir değişiklik olduğunda
+            document.getElementById('Input_Role').addEventListener('change', function() {
+                // Seçilen role'ün metnini alıyoruz
+                var selection = this.options[this.selectedIndex].text;
+                if (selection === 'Company') {
+                    document.getElementById('Input_CompanyId').style.display = 'block'; // Şirket alanını göster
+                } else {
+                    document.getElementById('Input_CompanyId').style.display = 'none'; // Şirket alanını gizle
+                }
+            });
+        });
+        */
+    </script>
 }

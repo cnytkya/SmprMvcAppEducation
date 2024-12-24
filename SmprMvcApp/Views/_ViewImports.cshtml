@@ -1,13 +1,9 @@
-﻿@using SmprMvcApp @* SmprMvcApp adındaki isim alanını (namespace) kullanıma alır. Bu, bu projede yer alan tüm bileşenlere (Controller, ViewModel vb.) erişim sağlar. *@
+﻿@using SmprMvcApp 
 @using SmprMvcApp.Models
-@using SmprMvcApp.EntityLayer.Entities @* SmprMvcApp.Models isim alanını kullanıma alır. Bu, model sınıflarına erişimi sağlar ve Razor View'lar içerisinde bu modellere erişimi kolaylaştırır. *@
+@using SmprMvcApp.EntityLayer.Entities 
 @using SmprMvcApp.Common
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@* Burası global içeri aktarma dosyası olarak geçer. using ifadesini tüm dosyalardaa yazamak yerine buraya ekliyoruz. Bunu eklememizin sebebi usin'leri globalde kullanabilmemizi sağlar.'
 
-Sonuç olarak, Microsoft.AspNetCore.Mvc.TagHelpers isim alanındaki tüm Tag Helper'ları projede kullanılabilir hale getirir. Bu, Razor sayfalarında HTML elementleri üzerinde daha zengin ve fonksiyonel etkileşimler sağlar. *@
-
-@*Özet olarak burası projenin genelinde kullanılacak olan using'leri eklyiyoruz ve bir kez oluşturuyoruz. amaç sürekli tekrar eden usingleri tek bir yerde toplamak. yani burdaki using'leri istediğimiz yerde import edebiliyor olacağız.*@
   
 
 

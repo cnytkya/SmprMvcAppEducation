@@ -9,7 +9,6 @@ using SmprMvcApp.EntityLayer.ViewModels;
 namespace SmprMvcApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = Roles.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -14,5 +14,9 @@ namespace SmprMvcApp.EntityLayer.Entities
         public string? City { get; set; } //şehir info
         public string? State { get; set; } //ilçe info
         public string? PostalCode { get; set; }
+        public int? CompanyId { get; set; }
+
+        [ForeignKey("CompanyId"), ValidateNever]
+        public Company Company { get; set; }
     }
 }
