@@ -49,9 +49,13 @@ namespace SmprMvcApp.DAL.Repository.Concrete
             //Category? category3 = _appDbContext.Categories.Where(c => c.Id == id).FirstOrDefault(); => controllerda yaptığımız query'nin aynısını bu metot yapacak. eğer category name
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)//bütün T türündeki nesneleri listeler
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)//bütün T türündeki nesneleri listeler
         {
             IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

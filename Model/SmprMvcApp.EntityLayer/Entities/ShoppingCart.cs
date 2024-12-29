@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmprMvcApp.EntityLayer.Entities
 {
@@ -24,5 +19,9 @@ namespace SmprMvcApp.EntityLayer.Entities
 
         [ForeignKey("AppUserId"), ValidateNever]
         public AppUser AppUser { get; set; }
+
+        //aşağıdaki property veritabanında olmayacak. Bu property sadece view tarafında kullanılacak.
+        [NotMapped]
+        public double Price { get; set; }
     }
 }
