@@ -43,8 +43,12 @@ namespace SmprMvcApp.Areas.Admin.Controllers
             // View'a kategoriler listesini model olarak geçiriyoruz
             return View(categoriesList);
         }
+        public IActionResult A()
+        {
+            return View();
+        }
 
-        [HttpGet]
+            [HttpGet]
         public IActionResult Create()
         {
             return View();
