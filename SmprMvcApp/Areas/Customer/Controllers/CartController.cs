@@ -7,12 +7,14 @@ using System.Security.Claims;
 
 namespace SmprMvcApp.Areas.Customer.Controllers
 {
-    [Area("Customer")] //Bu attribute, controller'ın bir Area'ya (bölgeye) ait olduğunu belirtir. Bu durumda, controller "Customer" adlı alana aittir. Böylece URL rotaları şu şekilde yapılandırılabilir: /Customer/Cart/Index
-    [Authorize] //Bu attribute, sadece yetkilendirilmiş kullanıcıların bu controller'a erişebileceğini belirtir.
+    [Area("Customer")] //bu attribute, controller'ın bir area'ya ait olduğunu belirti.
+    [Authorize]
     public class CartController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork; //Dependency Injection (Bağımlılık Enjeksiyonu) kullanarak IUnitOfWork arayüzünden bir nesne oluşturulur.
-        public ShoppinCartViewModel ShoppingCartVM { get; set; } //ShoppinCartViewModel türünden bir property tanımlanır. Bu, alışveriş sepetiyle ilgili verileri View (görünüm) katmanına taşımak için bir ViewModel'dir.
+        private readonly IUnitOfWork _unitOfWork;
+
+        //alışveriş sepetiyle ilgili dataları View(görünüm) katmanına taşımak için bir ViewModel.
+        public ShoppingCartViewModel ShoppingCartVM { get; set; }
 
         public CartController(IUnitOfWork unitOfWork)
         {
@@ -21,25 +23,43 @@ namespace SmprMvcApp.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            //Alışveriş sepeti verileri, ViewModel'e aktarılır. Bu veriler, View (görünüm) katmanında kullanılacaktır. Önce hangi kullanıcının sepetine bakılacağı belirlenir. Bunun için claim bilgileri kullanılır.
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             ShoppingCartVM = new()
             {
-                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.AppUserId == userId, includeProperties: "Product")//Kullanıcının sepetindeki ürünler, Product tablosundan çekilir. Bu işlem, Repository sınıfındaki GetAll metoduyla yapılır. Bu metod, filtreleme yapılmasına olanak tanır. Bu durumda, kullanıcının sepetindeki ürünler, AppUserId'ye göre filtrelenir.
+                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.AppUserId == userId, includeProperties: "Product")
             };
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Price = GetPriceBasedOnQuantity(cart);//Her bir ürünün fiyatı, miktarına göre belirlenir. Bu değer, ShoppingCart nesnesindeki Price property'sine atanır.
-                ShoppingCartVM.OrderTotal += (cart.Price * cart.Count);//Sepetteki ürünlerin toplam fiyatı hesaplanır. Her bir ürünün fiyatı, miktarıyla çarpılarak toplam fiyat bulunur. Bu değer, ViewModel'deki OrderTotal property'sine atanır.
+                cart.Price = GetPriceBasedOnQuantity(cart);
+                ShoppingCartVM.OrderTotal += (cart.Price * cart.Count);
             }
             return View(ShoppingCartVM);
         }
 
+        private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
+        {
+            if (shoppingCart.Count <= 50)
+            {
+                return shoppingCart.Product.Price;
+            }
+            else
+            {
+                if (shoppingCart.Count <= 100)
+                {
+                    return shoppingCart.Product.Price50;
+                }
+                else
+                {
+                    return shoppingCart.Product.Price100;
+                }
+            }
+        }
+
         public IActionResult Plus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(c => c.Id == cartId);
             cartFromDb.Count += 1;
             _unitOfWork.ShoppingCart.Update(cartFromDb);
             _unitOfWork.Save();
@@ -48,10 +68,10 @@ namespace SmprMvcApp.Areas.Customer.Controllers
 
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(c => c.Id == cartId);
             if (cartFromDb.Count <= 1)
             {
-                //remove that from cart
+                //sepetteki cart sayısını azalttığımızda en az 1'e kadar gidecek şekilde yapmamız gerekiyor. Eğer 1'in altına düşerse otomatik olarak cartı da sepetten silsin.
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
             }
             else
@@ -65,8 +85,7 @@ namespace SmprMvcApp.Areas.Customer.Controllers
 
         public IActionResult Remove(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
-
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(c => c.Id == cartId);
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
@@ -75,25 +94,6 @@ namespace SmprMvcApp.Areas.Customer.Controllers
         public IActionResult Summary(int cartId)
         {
             return View();
-        }
-
-        private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
-        {
-            if (shoppingCart.Count <= 50) //Eğer üründen 50 adetten az varsa, ürünün normal fiyatı alınır.
-            {
-                return shoppingCart.Product.Price;
-            }
-            else
-            {
-                if (shoppingCart.Count <= 100) //Eğer üründen 50 adetten fazla, 100 adetten az varsa, ürünün 50 adetlik fiyatı alınır.
-                {
-                    return shoppingCart.Product.Price50;
-                }
-                else //Eğer üründen 100 adetten fazla varsa, ürünün 100 adetlik fiyatı alınır.
-                {
-                    return shoppingCart.Product.Price100;
-                }
-            }
         }
     }
 }

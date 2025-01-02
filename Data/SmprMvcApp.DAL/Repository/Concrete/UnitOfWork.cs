@@ -24,6 +24,10 @@ namespace SmprMvcApp.DAL.Repository.Concrete
 
         public IAppUserRepository AppUser { get; private set; }
 
+        public IOrderDetailRepository OrderDetail { get; private set; }
+
+        public IOrderHeaderRepository OrderHeader { get; private set; }
+
         public UnitOfWork(AppDbContext context)
         {
             _appDbContext = context;
@@ -34,6 +38,8 @@ namespace SmprMvcApp.DAL.Repository.Concrete
             Company = new CompanyRepository(context);
             ShoppingCart = new ShoppingCartRepository(context);
             AppUser = new AppUserRepository(context);
+            OrderDetail = new OrderDetailRepository(context);
+            OrderHeader = new OrderHeaderRepository(context);
         }
 
         public void Save()
